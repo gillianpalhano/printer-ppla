@@ -1,0 +1,31 @@
+{
+  "name": "printer_ppla",
+  "version": "0.1.0",
+  "description": "Creates code in PPLA language for printing on Argox printers",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Gillian Palhano",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gillianpalhano/printer_ppla"
+  },
+  "keywords": [
+    "printer",
+    "thermal",
+    "argox",
+    "ppla",
+    "pplb",
+    "printer programming"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.13",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
