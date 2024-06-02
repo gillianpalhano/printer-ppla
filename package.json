@@ -1,5 +1,5 @@
 {
-  "name": "printer_ppla",
+  "name": "printer-ppla",
   "version": "0.1.0",
   "description": "Creates code in PPLA language for printing on Argox printers",
   "main": "dist/index.js",
@@ -7,7 +7,7 @@
   "author": "Gillian Palhano",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gillianpalhano/printer_ppla"
+    "url": "https://github.com/gillianpalhano/printer-ppla"
   },
   "keywords": [
     "printer",
