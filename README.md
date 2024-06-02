@@ -1,7 +1,7 @@
 
 # Printer PPLA
 
-A library for generating codes in the PPLA language used in Argox thermal printers.
+The package for generating codes in the PPLA language used in Argox thermal printers.
 
 
 ## Installing
