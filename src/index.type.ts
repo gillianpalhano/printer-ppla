@@ -100,3 +100,39 @@ export interface IDeleteGraphic {
   name: string
   memory?: TMemories
 }
+
+export interface IBMPHeader {
+  fileType: string
+  fileSize: number
+  reserved1: number
+  reserved2: number
+  offset: number
+}
+
+export interface IDIBHeader {
+  headerSize: number
+  width: number
+  height: number
+  planes: number
+  bitCount: number
+  compression: number
+  imageSize: number
+  xPixelsPerMeter: number
+  yPixelsPerMeter: number
+  colorsUsed: number
+  importantColors: number
+}
+
+export interface IBMP {
+  buffer: Buffer
+  bmpHeader: IBMPHeader
+  dibHeader: IDIBHeader
+}
+
+export type Pixel = 0 | 1
+
+export interface IResize {
+  newWidth?: number
+  newHeight?: number
+  proportionalScale?: boolean
+}

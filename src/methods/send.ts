@@ -7,9 +7,9 @@ import { Printer } from '..'
  * 
  * Note: The function to be used is configured at class initialization or in setConfig (param config.printFunction)
  */
-export function send(this: Printer) {
+export async function send(this: Printer) {
   if (!this.config.printFunction) throw new Error('Function not configured!')
 
   const dataBuffer = this.build()
-  this.config.printFunction(dataBuffer)
+  await this.config.printFunction(dataBuffer)
 }

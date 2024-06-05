@@ -44,9 +44,9 @@ const printCode = print.build() // get the Buffer
 const printCode = print.getCode() // get the code in string
 ```
 
-## Functions
+## Methods
 
-| **Function**   | **Type** | **Example**       |
+| **Methods**   | **Type** | **Example**       |
 | :---------- | :--------- | :--------- |
 | setConfig | IConfig | ```.setConfig(myConfig: IConfig)``` |
 | setCopies | number | ```.setCopies(2)``` |
@@ -63,14 +63,28 @@ const printCode = print.getCode() // get the code in string
 | send | | ```.send()``` *see details below |
 | getCode | | ```.getCode``` *see details below |
 
+## Functions
+
+| **Functions**   | **Type** | **Example**       |
+| :---------- | :--------- | :--------- |
+| resizeBMP | string, IResize | ```const imgBuffer = resizeBMP(inputPath, { newWidth })``` |
+
 
 ### Functions graphic
 ```typescript
-// Loads the monochrome .bmp image into memory
-const fileBuffer  = fs.readFileSync(bmpFilePath);
+/*
+Function to resize a monochrome bitmap, the printed size can be calculated (depends on the printer - check manual).
+For OS-214 Plus with pixelSizeW = 2 (see configPrinter: IConfig) it is 0.250mm per pixel.
+*/
+const imageBuffer = resizeBMP(bmpFilePath, { newWidth: 50/0.250 }) // 50mm
+
+// or
+
+// Loads the monochrome .bmp image into memory directly from the file
+const imageBuffer  = fs.readFileSync(bmpFilePath);
 
 // Sends the image to the printer's memory
-print.sendGraphic({ imageBuffer: fileBuffer, name: 'myimage' })
+print.sendGraphic({ imageBuffer, name: 'myimage' })
 
 // Insert the image into the label
 print.addGraphic({ y: 50, x: 50, name: 'myimage' })

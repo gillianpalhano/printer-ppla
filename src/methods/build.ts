@@ -29,6 +29,7 @@ export function build(this: Printer, copies?: number): Buffer {
     dataBuffer = Buffer.concat([
       dataBuffer,
       Buffer.from('\x02L\r'),
+      Buffer.from(`D${this.config.pixelSizeW}${this.config.pixelSizeH}\r`),
       command,
       Buffer.from(`Q${copies.toString().padStart(4, '0')}\r`),
       Buffer.from('E\r'),

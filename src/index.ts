@@ -1,9 +1,10 @@
 import * as methods from './methods'
-import { Memory, Font } from './constants'
+import { Memory } from './constants'
 import { type IConfig } from './index.type'
 
 export * from './index.type'
 export * from './constants'
+export * from './functions'
 
 /**
  * Class Printer
