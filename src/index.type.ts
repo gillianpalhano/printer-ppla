@@ -13,6 +13,11 @@
  * @param unitMeasurement - unit of measurement ("m" for metric or "n" for inch)
  * @param setMaximumLength - set maximum lenght of label? maximum is labels * number of labels + spaces
  * @param printFunction - function to send data to be printed
+ * @param transferType - Sets transfer type
+ * @param startposition - Sets print start position
+ * @param cutterDispenserConfig - Sets cutter and dispenser configuration
+ * @param stopPosition - Sets stop position and automatic back-feed for the label stock
+ * @param continuousLength - Sets continuous label length
  */
 export interface IConfig {
   width?: number
@@ -27,6 +32,11 @@ export interface IConfig {
   unitMeasurement?: 'm' | 'n'
   setMaximumLength?: boolean
   printFunction?: Function
+  transferType?: number
+  startposition?: number
+  cutterDispenserConfig?: number
+  stopPosition?: number
+  continuousLength?: number
 }
 
 export type TDirections = '1' | '2' | '3' | '4'
@@ -94,6 +104,7 @@ export interface IGraphic {
   name: string
   deleteAfter?: boolean
   memory?: TMemories
+  repeatColumns?: boolean
 }
 
 export interface IDeleteGraphic {

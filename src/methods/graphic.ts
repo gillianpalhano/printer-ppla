@@ -32,10 +32,16 @@ export function sendGraphic(this: Printer, { imageBuffer, name, flipped = true, 
  * @param name - The name of the image that was downloaded (maximum 16 characters).
  * @param deleteAfter - Delete this image after use?
  * @param memory - Memory location where it was saved
+ * @param repeatColumns - Repeat the same data for all columns (default false)
  */
-export function addGraphic(this: Printer, { y, x, name, deleteAfter = true, memory = this.config.defaultSaveGraphic }: IGraphic) { // 1Y11000yyyyxxxxn..n
+export function addGraphic(this: Printer, { y, x, name, deleteAfter = true, memory = this.config.defaultSaveGraphic, repeatColumns = false }: IGraphic) { // 1Y11000yyyyxxxxn..n
   if(name.length > 16) throw new Error('16 character name limit exceeded')
-  this.command.push(`1Y11000${y.toString().padStart(4, '0')}${x.toString().padStart(4, '0')}${name}\r`)
+  
+  const repeat = repeatColumns ? this.config.columns! : 1
+  const offsets = this.getOffsets()
+  for(let i = 0; i < repeat; i++) {
+    this.command.push(`1Y11000${y.toString().padStart(4, '0')}${(x + offsets[i]).toString().padStart(4, '0')}${name}\r`)
+  }
   if(deleteAfter) {
     this.deleteGraphic({ memory, name })
   }

@@ -15,9 +15,15 @@ export function build(this: Printer, copies?: number): Buffer {
   }
   
   if(this.config.setMaximumLength && this.command.length > 0) {
-    const maximumLength = (this.config.width! * this.config.columns!).toString().padStart(4, '0')
-    dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`M${maximumLength}\r`)])
+    const maximumLength = this.getTotalWidth().toString().padStart(4, '0')
+    dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02M${maximumLength}\r`)])
   }
+
+  dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02KI7${this.config.transferType}\r`)])
+  dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02O${this.config.startposition!.toString().padStart(4, '0')}\r`)])
+  dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02V${this.config.cutterDispenserConfig}\r`)])
+  dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02f${this.config.stopPosition!.toString().padStart(3, '0')}\r`)])
+  dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02c${this.config.continuousLength!.toString().padStart(4, '0')}\r`)])
     
   if(this.preCommand.length > 0) {
     const pre = Buffer.concat(this.preCommand.map((c) => Buffer.isBuffer(c) ? c : Buffer.from(c)))
