@@ -36,6 +36,7 @@ export function build(this: Printer, copies?: number): Buffer {
       dataBuffer,
       Buffer.from('\x02L\r'),
       Buffer.from(`D${this.config.pixelSizeW}${this.config.pixelSizeH}\r`),
+      Buffer.from(`H${this.config.heatValue!.toString().padStart(2, '0')}\r`),
       command,
       Buffer.from(`Q${copies.toString().padStart(4, '0')}\r`),
       Buffer.from('E\r'),

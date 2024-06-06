@@ -15,12 +15,19 @@ import { IBarcode } from '../index.type'
  * @param direction - print direction (import { Direction } ...)
  * @param type - Bar code type. The range can be 'A' through 'T' and 'a' through 'z', each character represents a bar code type and rule.
  */
-export function addBarcode(this: Printer, { y, x, data, wideBarWidth = '1', narrowBarWidth = '0', height = 0, direction = Direction.PORTRAIT, type = 'A'}: IBarcode) {
+export function addBarcode(
+    this: Printer,
+    { y, x, data, wideBarWidth = '1', narrowBarWidth = '0', height = 0, direction = Direction.PORTRAIT, type = 'A', repeatColumns = false}: IBarcode
+  ) {
   const heights = height.toString().padStart(3, '0')
   const ys = y.toString().padStart(4, '0')
-  const xs = x.toString().padStart(4, '0')
-
-  this.command.push(`${direction}${type}${wideBarWidth}${narrowBarWidth}${heights}${ys}${xs}${data}\r`)
+  const repeat = repeatColumns ? this.config.columns! : 1
+  const offsets = this.getOffsets()
+  
+  for(let i = 0; i < repeat; i++) {
+    const xs = (x + offsets[i]).toString().padStart(4, '0')
+    this.command.push(`${direction}${type}${wideBarWidth}${narrowBarWidth}${heights}${ys}${xs}${data}\r`)
+  }
 
   return this
 }

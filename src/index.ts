@@ -40,6 +40,7 @@ export class Printer {
     cutterDispenserConfig: 0, // V0 - Sets cutter and dispenser configuration
     stopPosition: 298, // f298 - Sets stop position and automatic back-feed for the label stock
     continuousLength: 0, // c0000 -- Sets continuous label length
+    heatValue: 10,
   }
 
   constructor(config: IConfig) {

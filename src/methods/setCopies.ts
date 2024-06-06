@@ -3,7 +3,8 @@ import { Printer } from '..'
 /**
  * Function setCopies
  * ---
- * set the number of copies
+ * Command: Qnnnn,.,
+ * Set the number of copies
  * 
  * Note: Can be added directly to the build function or getCode function
  * @param copies - number of copies

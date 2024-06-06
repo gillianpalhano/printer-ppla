@@ -18,6 +18,7 @@
  * @param cutterDispenserConfig - Sets cutter and dispenser configuration
  * @param stopPosition - Sets stop position and automatic back-feed for the label stock
  * @param continuousLength - Sets continuous label length
+ * @param heatValue - Sets heat value (2~20) 
  */
 export interface IConfig {
   width?: number
@@ -37,6 +38,7 @@ export interface IConfig {
   cutterDispenserConfig?: number
   stopPosition?: number
   continuousLength?: number
+  heatValue?: number
 }
 
 export type TDirections = '1' | '2' | '3' | '4'
@@ -60,6 +62,7 @@ export interface IBarcode {
   height?: number
   direction?: TDirections
   type: string
+  repeatColumns?: boolean
 }
 
 export interface IBox {
@@ -70,6 +73,7 @@ export interface IBox {
   t: number
   s: number
   direction?: TDirections
+  repeatColumns?: boolean
 }
 
 export interface ILine {
@@ -78,6 +82,7 @@ export interface ILine {
   a: number
   b: number
   direction?: TDirections
+  repeatColumns?: boolean
 }
 
 export interface IText {
@@ -89,6 +94,7 @@ export interface IText {
   hScale?: TValues
   vScale?: TValues
   direction?: TDirections
+  repeatColumns?: boolean
 }
 
 export interface IsendGraphic {

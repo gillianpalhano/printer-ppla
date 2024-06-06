@@ -15,16 +15,20 @@ import { IBox } from '../index.type'
  * @param s - A value that specifies the thickness of side edges.
  * @param direction - print direction (import { Direction } ...)
  */
-export function addBox(this: Printer, { y, x, a, b, t, s, direction = Direction.PORTRAIT }: IBox) {
+export function addBox(this: Printer, { y, x, a, b, t, s, direction = Direction.PORTRAIT, repeatColumns = false }: IBox) {
 
   const ys = y.toString().padStart(4, '0')
-  const xs = x.toString().padStart(4, '0')
   const as = a.toString().padStart(4, '0')
   const bs = b.toString().padStart(4, '0')
   const ts = t.toString().padStart(4, '0')
   const ss = s.toString().padStart(4, '0')
-
-  this.command.push(`${direction}X11000${ys}${xs}b${as}${bs}${ts}${ss}\r`)
+  const repeat = repeatColumns ? this.config.columns! : 1
+  const offsets = this.getOffsets()
+  
+  for(let i = 0; i < repeat; i++) {
+    const xs = (x + offsets[i]).toString().padStart(4, '0')
+    this.command.push(`${direction}X11000${ys}${xs}b${as}${bs}${ts}${ss}\r`)
+  }
 
   return this
 }

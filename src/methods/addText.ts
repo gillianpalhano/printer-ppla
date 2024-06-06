@@ -13,13 +13,18 @@ import { Printer, Font, Direction, IText } from '..'
  * @param vScale - Vertical scale. '0' through '9' and 'A' through 'O' represent the width of wide bar. ('A'=10,'B'=11, .. and 'O'=24)
  * @param direction - print direction (import { Direction } ...)
  */
-export function addText(this: Printer, { y, x, text, font = '2', subFont = '000', hScale = '1', vScale = '1', direction = Direction.PORTRAIT }: IText) {
+export function addText(this: Printer, { y, x, text, font = '2', subFont = '000', hScale = '1', vScale = '1', direction = Direction.PORTRAIT, repeatColumns = false }: IText) {
   if (!Font[font]) throw new Error('Error value font')
   if (!Font[font].subFont.includes(subFont) && font !== '9') throw new Error('Error value subFont')
   
   const ys = y.toString().padStart(4, '0')
-  const xs = x.toString().padStart(4, '0')
-  this.command.push(`${direction}${font}${hScale}${vScale}${subFont}${ys}${xs}${text}\r`)
+  const repeat = repeatColumns ? this.config.columns! : 1
+  const offsets = this.getOffsets()
+  
+  for(let i = 0; i < repeat; i++) {
+    const xs = (x + offsets[i]).toString().padStart(4, '0')
+    this.command.push(`${direction}${font}${hScale}${vScale}${subFont}${ys}${xs}${text}\r`)
+  }
 
   return this
 }
