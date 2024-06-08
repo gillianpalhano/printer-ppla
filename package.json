@@ -1,6 +1,6 @@
 {
   "name": "printer-ppla",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Creates code in PPLA language for printing on Argox printers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
