@@ -44,14 +44,38 @@ const printCode = print.build() // get the Buffer
 const printCode = print.getCode() // get the code in string
 ```
 
+## Config (IConfig)
+##### 
+
+| **Parameter** | **Function** |
+| :---------- | :--------- |
+| width | width of label |
+| height | height of label |
+| columns | number of columns |
+| marginLeft | margin left |
+| marginRight | margin right |
+| spaceBetween | space between each label |
+| pixelSizeW | width pixel size - default: "2" (0.0049 inch / 0.125 mm for models OS214/OS204/204/X2000+/1000/G6000 and 0.0033 inch / 0.084 mm for models OS314/X3000+/G7000) |
+| pixelSizeH | height pixel size - default: "2" (see pixelSizeW) |
+| defaultSaveGraphic | default storage location (A for RAM, B for flash, C for configured default) |
+| unitMeasurement | unit of measurement ("m" for metric or "n" for inch) |
+| maximumLength | set maximum lenght of label |
+| printFunction | function to send data to be printed |
+| transferType | Sets transfer type |
+| startposition | Sets print start position |
+| cutterDispenserConfig | Sets cutter and dispenser configuration |
+| stopPosition | Sets stop position and automatic back-feed for the label stock |
+| continuousLength | Sets continuous label length |
+| heatValue | Sets heat value (2~20) |
+
 ## Methods
 
 | **Methods**   | **Type** | **Example**       |
 | :---------- | :--------- | :--------- |
 | setConfig | IConfig | ```.setConfig(myConfig: IConfig)``` |
 | setCopies | number | ```.setCopies(2)``` |
-| addBarcode | IBarcode| ```.addBarcode({ y: 10, x: 10, data: '123456', type: 'A' })``` |
-| addBox | IBox | ```.addBox({ y: 10, x: 10, a: 100, b: 150, s: 10, t: 10 })``` |
+| addBarcode | IBarcode| ```.addBarcode({ y: 10, x: 10, data: '123456', type: 'A', repeatColumns: true })``` |
+| addBox | IBox | ```.addBox({ y: 10, x: 10, a: 100, b: 150, s: 10, t: 10, repeatColumns: true })``` |
 | addLine | ILine | ```.addLine({ y: 10, x: 10, a: 100, b: 150 })``` |
 | addText | IText | ```.addText({ y: 10, x: 10, text: 'My first test!' })``` |
 | clearMemory | string | ```.clearMemory(Memory.RAM)``` |
@@ -59,15 +83,19 @@ const printCode = print.getCode() // get the code in string
 | sendGraphic | IsendGraphic | ```.sendGraphic()``` *see details below |
 | addGraphic | IGraphic | ```.addGraphic()``` *see details below |
 | deleteGraphic | IDeleteGraphic | ```.deleteGraphic()``` *see details below |
+| addPreCommand | string | ```.addPreCommand('<STX>M0550<CR>')``` |
+| addCommand | string | ```.addCommand('A2')``` |
+| addPostCommand | string | ```.addPostCommand('<STX>xAGmyimage<CR>')``` |
 | build | | ```.build()``` *see details below |
 | send | | ```.send()``` *see details below |
 | getCode | | ```.getCode``` *see details below |
 
 ## Functions
 
-| **Functions**   | **Type** | **Example**       |
-| :---------- | :--------- | :--------- |
-| resizeBMP | string, IResize | ```const imgBuffer = resizeBMP(inputPath, { newWidth })``` |
+| **Functions**   | **Type** | **Example**  | **return** |
+| :---------- | :--------- | :--------- | :--------- |
+| resizeBMP | string, IResize | ```const imgBuffer = resizeBMP(inputPath, { newWidth })``` | Buffer of image |
+| notationToHexReplace | string | ```notationToHexReplace('<STX>123300002500050G<CR>')```| string |
 
 
 ### Functions graphic
