@@ -32,7 +32,7 @@ export class Printer {
     pixelSizeH: '2',
     defaultSaveGraphic: Memory.DEFAULT, // A para RAM, B para flash
     unitMeasurement: 'm',
-    setMaximumLength: true,
+    maximumLength: undefined,
     printFunction: undefined,
 
     transferType: 1, // KI71 - Sets transfer type

@@ -14,9 +14,8 @@ export function build(this: Printer, copies?: number): Buffer {
     dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02${this.config.unitMeasurement}\r`)])
   }
   
-  if(this.config.setMaximumLength && this.command.length > 0) {
-    const maximumLength = this.getTotalWidth().toString().padStart(4, '0')
-    dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02M${maximumLength}\r`)])
+  if(this.config.maximumLength && this.command.length > 0) {
+    dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02M${this.config.maximumLength.toString().padStart(4, '0')}\r`)])
   }
 
   dataBuffer = Buffer.concat([dataBuffer, Buffer.from(`\x02KI7${this.config.transferType}\r`)])

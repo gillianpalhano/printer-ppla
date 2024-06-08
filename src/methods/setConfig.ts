@@ -19,7 +19,7 @@ export function setConfig(this: Printer, config: IConfig) {
   if (config.defaultSaveGraphic !== undefined && !['A', 'B', 'C'].includes(config.defaultSaveGraphic)) throw new Error('Error on defaultSaveGraphic value')
 
   if (config.unitMeasurement !== undefined && !['m', 'n'].includes(config.unitMeasurement) ) throw new Error('Error on unitMeasurement value')
-  if (config.setMaximumLength !== undefined && typeof config.setMaximumLength !== 'boolean') throw new Error('Error on setMaximumLength value')
+  if (config.maximumLength !== undefined && typeof config.maximumLength !== 'number') throw new Error('Error on maximumLength value')
 
 
 

@@ -11,7 +11,7 @@
  * @param pixelSizeH - height pixel size - default: "2" (see pixelSizeW)
  * @param defaultSaveGraphic - default storage location (A for RAM, B for flash, C for configured default)
  * @param unitMeasurement - unit of measurement ("m" for metric or "n" for inch)
- * @param setMaximumLength - set maximum lenght of label? maximum is labels * number of labels + spaces
+ * @param maximumLength - set maximum lenght of label
  * @param printFunction - function to send data to be printed
  * @param transferType - Sets transfer type
  * @param startposition - Sets print start position
@@ -31,7 +31,7 @@ export interface IConfig {
   pixelSizeH?: '1' | '2' | '3'
   defaultSaveGraphic?: TMemories
   unitMeasurement?: 'm' | 'n'
-  setMaximumLength?: boolean
+  maximumLength?: number
   printFunction?: Function
   transferType?: number
   startposition?: number
