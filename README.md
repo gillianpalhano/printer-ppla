@@ -86,9 +86,9 @@ const printCode = print.getCode() // get the code in string
 | addPreCommand | string | ```.addPreCommand('<STX>M0550<CR>')``` |
 | addCommand | string | ```.addCommand('A2')``` |
 | addPostCommand | string | ```.addPostCommand('<STX>xAGmyimage<CR>')``` |
-| build | | ```.build()``` *see details below |
-| send | | ```.send()``` *see details below |
-| getCode | | ```.getCode``` *see details below |
+| build | | ```.build()``` *see details below, [here](#functions-graphic) |
+| send | | ```.send()``` *see details below, [here](#functions-graphic) |
+| getCode | | ```.getCode``` *see details below, [here](#functions-graphic) |
 
 ## Functions
 
