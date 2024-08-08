@@ -1,9 +1,13 @@
 import * as fs from 'fs'
 import { IBMP, IBMPHeader, IDIBHeader, IResize, Pixel } from '..'
 
-function readBMP(filePath: string): IBMP {
+function readBMP(filePath: string): Buffer {
   const buffer = fs.readFileSync(filePath)
 
+  return buffer
+}
+
+function decodeBMP(buffer: Buffer): IBMP {
   // Ler o cabeçalho do arquivo BMP
   const bmpHeader: IBMPHeader = {
     fileType: buffer.toString('utf-8', 0, 2),
@@ -152,22 +156,7 @@ function createBMPBuffer(data: Buffer, width: number, height: number): Buffer {
   return buffer
 }
 
-/**
- * Function resizeBMP
- * ----
- * Function to resize the monochrome bitmap image (independent of the Printer class)
- * @param inputPath - image path 
- * @param newWidth - New width value
- * @param newHeight - New height value
- * @param proportionalScale - If only one value is provided for resizing, the other will be proportional (default true)
- * @returns Buffer of the image
- */
-export function resizeBMP(inputPath: string, { newWidth, newHeight, proportionalScale = true }: IResize): Buffer {
-  if (!inputPath) throw new Error('The input file path is required.')
-  if (!newWidth && !newHeight) throw new Error('At least one dimension (width or height) must be provided.')
-
-  const bmp = readBMP(inputPath)
-
+function resize(bmp: IBMP, { newWidth, newHeight, proportionalScale = true }: IResize): Buffer {
   if(newWidth == undefined && !proportionalScale) {
     newWidth = bmp.dibHeader.width
   } else if(newWidth == undefined) {
@@ -184,6 +173,128 @@ export function resizeBMP(inputPath: string, { newWidth, newHeight, proportional
   const resized = resizeBinMatrix(matrix, newWidth!, newHeight!)
   const bufferData = binMatrixToBuffer(resized)
   const newBuffer = createBMPBuffer(bufferData, newWidth!, newHeight!)
+
+  return newBuffer
+}
+
+/**
+ * Function resizeBMP
+ * ----
+ * Function to resize the monochrome bitmap image (independent of the Printer class)
+ * @param inputPath - image path 
+ * @param newWidth - New width value
+ * @param newHeight - New height value
+ * @param proportionalScale - If only one value is provided for resizing, the other will be proportional (default true)
+ * @returns Buffer of the image
+ */
+export function resizeBMP(inputPath: string, { newWidth, newHeight, proportionalScale = true }: IResize): Buffer {
+  if (!inputPath) throw new Error('The input file path is required.')
+  if (!newWidth && !newHeight) throw new Error('At least one dimension (width or height) must be provided.')
+
+  const bmp = decodeBMP(readBMP(inputPath))
+
+  return resize(bmp, { newWidth, newHeight, proportionalScale })
+}
+
+/**
+ * Function resizeBufferBMP
+ * ----
+ * Function to resize the monochrome bitmap image (independent of the Printer class)
+ * @param imgBuffer - Buffer of the image
+ * @param newWidth - New width value
+ * @param newHeight - New height value
+ * @param proportionalScale - If only one value is provided for resizing, the other will be proportional (default true)
+ * @returns Buffer of the image
+ */
+export function resizeBufferBMP(imgBuffer: Buffer, { newWidth, newHeight, proportionalScale = true }: IResize): Buffer {
+  if (!imgBuffer) throw new Error('The buffer is required.')
+  if (!newWidth && !newHeight) throw new Error('At least one dimension (width or height) must be provided.')
+
+  const bmp = decodeBMP(imgBuffer)
+
+  return resize(bmp, { newWidth, newHeight, proportionalScale })
+}
+
+/**
+ * Function imageDataToMonochrome
+ * ----
+ * @param imageData - from html canvas
+ * @param threshold - adjust threshold for pixel white and black
+ * @returns matrix of pixels
+ */
+function imageDataToMonochrome(imageData: ImageData, threshold: number = 128): Pixel[][] {
+  const { width, height, data } = imageData;
+  const matrix: Pixel[][] = [];
+
+  for (let y = height-1; y >= 0; y--) {
+    const row: Pixel[] = [];
+    for (let x = 0; x < width; x++) {
+      const index = (y * width + x) * 4;
+      const red = data[index];
+      const green = data[index + 1];
+      const blue = data[index + 2];
+      const alpha = data[index + 3]/255;
+
+      // Fundo branco
+      const backgroundRed = 255;
+      const backgroundGreen = 255;
+      const backgroundBlue = 255;
+
+      // Calcula a cor resultante com base na transparência
+      const finalRed = red * alpha + backgroundRed * (1 - alpha);
+      const finalGreen = green * alpha + backgroundGreen * (1 - alpha);
+      const finalBlue = blue * alpha + backgroundBlue * (1 - alpha);
+
+      // Calcula a luminância da cor resultante
+      const luminance = 0.299 * finalRed + 0.587 * finalGreen + 0.114 * finalBlue;
+
+      // Aplica o limiar para determinar se o pixel será preto ou branco
+      row.push(luminance >= threshold ? 1 : 0);
+    }
+    matrix.push(row);
+  }
+
+  return matrix;
+}
+
+/**
+ * Function imageDataToBMPBuffer
+ * ----
+ * @param imageData - from html canvas
+ * @param threshold - adjust threshold for pixel white and black
+ * @returns Buffer of the image
+ */
+export function imageDataToBMPBuffer(imageData: ImageData, threshold: number = 128): Buffer {
+  const matrix = imageDataToMonochrome(imageData, threshold)
+  const toBuffer = binMatrixToBuffer(matrix)
+  const imgBuffer = createBMPBuffer(toBuffer, imageData.width, imageData.height)
+
+  return imgBuffer
+}
+/**
+ * Function cropTopWhiteLines
+ * ---
+ * Remove white lines from the top of the image
+ * @param imgBuffer - Buffer of the image
+ * @returns Buffer of the image
+ */
+export function cropTopWhiteLines(imgBuffer: Buffer): Buffer {
+  const bmp = decodeBMP(imgBuffer)
+  const matrix = bufferToBinMatrix(bmp)
+
+  let croppedMatrix = [...matrix]; // Cópia da matriz original
+
+  for (let i = croppedMatrix.length-1; i >=0; i--) {
+      // Verifica se a linha atual é toda branca (assumindo que '1' representa branco)
+      const isWhite = croppedMatrix[i].every(pixel => pixel === 1);
+      if (!isWhite) {
+          croppedMatrix = croppedMatrix.slice(0, i); // Remove as linhas superiores
+          break;
+      }
+  }
+
+  const bufferData = binMatrixToBuffer(croppedMatrix)
+  const newBuffer = createBMPBuffer(bufferData, bmp.dibHeader.width, croppedMatrix.length)
 
   return newBuffer
 }
