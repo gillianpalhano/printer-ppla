@@ -6,6 +6,8 @@ import { IBox } from '../index.type'
 /**
  * Function addBox
  * ---
+ * Add a box into the label 
+ * 
  * Format: RX11000yyyyxxxxbaaaabbbbttttssss
  * @param y - A value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point. 
  * @param x - A value for X coordinate. The lower left corner is the origin of the XY coordinate system. The X value is the horizontal offset from origin point. 

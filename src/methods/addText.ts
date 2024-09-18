@@ -3,6 +3,8 @@ import { Printer, Font, Direction, IText } from '..'
 /**
  * Function addText
  * ---
+ * Add a text into the label 
+ * 
  * Format: Rthvoooyyyyxxxx[data string]
  * @param y - A value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point. 
  * @param x - A value for X coordinate. The lower left corner is the origin of the XY coordinate system. The X value is the horizontal offset from origin point. 

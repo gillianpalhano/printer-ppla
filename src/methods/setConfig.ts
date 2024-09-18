@@ -3,7 +3,7 @@ import { Printer, IConfig, Memory } from '..'
 /**
  * Function setConfig
  * ---
- * change config
+ * Change config
  * 
  */
 export function setConfig(this: Printer, config: IConfig) {

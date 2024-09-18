@@ -40,7 +40,7 @@ export function addCommand(this: Printer, command: string): Printer {
 /**
  * Function addPostCommand
  * ---
- * Insert commands after label editing commands
+ * Enter commands after label editing commands
  * * see addPreCommand
  * * see addCommand
  * @param command - A raw command. 
