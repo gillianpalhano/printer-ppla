@@ -44,7 +44,7 @@ const printCode = print.build() // get the Buffer
 const printCode = print.getCode() // get the code in string
 ```
 
-## Config (IConfig)
+## Config
 ##### 
 
 | **Parameter** | **Function** |
@@ -70,25 +70,25 @@ const printCode = print.getCode() // get the code in string
 
 ## Methods
 
-| **Methods**   | **Type** | **Example**       |
-| :---------- | :--------- | :--------- |
-| setConfig | IConfig | ```.setConfig(myConfig: IConfig)``` |
-| setCopies | number | ```.setCopies(2)``` |
-| addBarcode | IBarcode| ```.addBarcode({ y: 10, x: 10, data: '123456', type: 'A', repeatColumns: true })``` |
-| addBox | IBox | ```.addBox({ y: 10, x: 10, a: 100, b: 150, s: 10, t: 10, repeatColumns: true })``` |
-| addLine | ILine | ```.addLine({ y: 10, x: 10, a: 100, b: 150 })``` |
-| addText | IText | ```.addText({ y: 10, x: 10, text: 'My first test!' })``` |
-| clearMemory | string | ```.clearMemory(Memory.RAM)``` |
-| clearAllMemory | -- | ```.clearAllMemory()``` |
-| sendGraphic | IsendGraphic | ```.sendGraphic()``` *see details below |
-| addGraphic | IGraphic | ```.addGraphic()``` *see details below |
-| deleteGraphic | IDeleteGraphic | ```.deleteGraphic()``` *see details below |
-| addPreCommand | string | ```.addPreCommand('<STX>M0550<CR>')``` |
-| addCommand | string | ```.addCommand('A2')``` |
-| addPostCommand | string | ```.addPostCommand('<STX>xAGmyimage<CR>')``` |
-| build | | ```.build()``` *see details below, [here](#functions-graphic) |
-| send | | ```.send()``` *see details below, [here](#functions-graphic) |
-| getCode | | ```.getCode``` *see details below, [here](#functions-graphic) |
+| **Methods**   | **Type** | **Params** | **Example**       |
+| :---------- | :--------- | :--------- | :--------- |
+| setConfig | IConfig | [view here](#Config (IConfig)) |```.setConfig(myConfig: IConfig)``` |
+| setCopies | number | |```.setCopies(2)``` |
+| addBarcode | IBarcode| <pre>**y:** A value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point.<br>**x:** A value for X coordinate. The lower left corner is the origin of the XY coordinate system. The X value is the horizontal offset from origin point.<br>**data:** A string of data with maximum 255 characters in length. The length of the string may be varied from the type of the bar code. <br>**wideBarWidth:** '0' through '9' and 'A' through 'O' represent the width of wide bar. ('A'=10,'B'=11, .. and 'O'=24). <br>**narrowBarWidth:** '0' through '9' and 'A' through 'O' represent the width of narrow bar. ('A'=10,'B'=11, .. and 'O'=24). <br>**height:** A value that represents the bar code height. <br>**direction:** print direction (import { Direction } ...). <br>**type:** Bar code type. The range can be 'A' through 'T' and 'a' through 'z', each character represents a bar code type and rule.</pre> |```.addBarcode({ y: 10, x: 10, data: '123456', type: 'A', repeatColumns: true })``` |
+| addBox | IBox | <pre>**y:** A value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point. <br>**x:** A value for X coordinate. The lower left corner is the origin of the XY coordinate system. The X value is the horizontal offset from origin point. <br>**a:** A value that specifies the width of line.<br>**b:** A value that specifies the height of line.<br>**t:** A value that specifies the thickness of top and bottom box edges.<br>**s:** A value that specifies the thickness of side edges.<br>**direction:** print direction (import { Direction } ...)<pre> |```.addBox({ y: 10, x: 10, a: 100, b: 150, s: 10, t: 10, repeatColumns: true })``` |
+| addLine | ILine | <pre>**y:** A value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point. <br>**x:** A value for X coordinate. The lower left corner is the origin of the XY coordinate system. The X value is the horizontal offset from origin point. <br>**a:** A value that specifies the width of line.<br>**b:** A value that specifies the height of line.<br>**direction:** print direction (import { Direction } ...)<pre> |```.addLine({ y: 10, x: 10, a: 100, b: 150 })``` |
+| addText | IText | <pre>**y:** A value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point. <br>**x:** A value for X coordinate. The lower left corner is the origin of the XY coordinate system. The X value is the horizontal offset from origin point. <br>**text:**  A string of printable data with maximum 255 characters in length. <br>**font:** Font type. (import { Font } ... and use Font[xxx].font) <br>**subFont:** subFont type. (import { Font } ... and use Font[xxx].subFont[zzz])<br>**hScale:** Horizontal scale. '0' through '9' and 'A' through 'O' represent the width of wide bar. ('A'=10,'B'=11, .. and 'O'=24)<br>**vScale:** Vertical scale. '0' through '9' and 'A' through 'O' represent the width of wide bar. ('A'=10,'B'=11, .. and 'O'=24)<br>**direction:** print direction (import { Direction } ...)</pre> |```.addText({ y: 10, x: 10, text: 'My first test!' })``` |
+| clearMemory | string | <pre>**memory:** Memory to be cleared (use import { Memory } from ...)</pre>|```.clearMemory(Memory.RAM)``` |
+| clearAllMemory | -- | |```.clearAllMemory()``` |
+| sendGraphic | IsendGraphic | <pre>**imageBuffer:** The Buffer of the image (8-bit BMP file format).<br>**name:** The name of the image (maximum 16 characters). The file name can be accessed with label formatting commands.<br>**flipped:** Boolean for whether the image will be flipped.<br>**memory:** Memory location to be saved</pre> |```.sendGraphic()``` *see details below |
+| addGraphic | IGraphic | <pre>**y:** value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point. <br>**x:** A value for X coordinate. The lower left corner is the origin of the XY coordinate system. The X value is the horizontal offset from origin point. <br>**name:** The name of the image that was downloaded (maximum 16 characters).<br>**deleteAfter:** Delete this image after use?<br>**memory:** Memory location where it was saved.<br>**repeatColumns:** Repeat the same data for all columns (default false)</pre> |```.addGraphic()``` *see details below |
+| deleteGraphic | IDeleteGraphic | <pre>**name:** The name of the image that was downloaded (maximum 16 characters).<br>**memory:** Memory location where it was saved </pre> |```.deleteGraphic()``` *see details below |
+| addPreCommand | string | <pre>**command:** A raw command. </pre> |```.addPreCommand('<STX>M0550<CR>')``` |
+| addCommand | string | <pre>**command:** A raw command. </pre> |```.addCommand('A2')``` |
+| addPostCommand | string | <pre>**command:** A raw command. </pre> | ```.addPostCommand('<STX>xAGmyimage<CR>')``` |
+| build | | <pre>**copies:** number of copies</pre> |```.build()``` *see details below, [here](#functions-graphic) |
+| send | | | ```.send()``` *see details below, [here](#functions-graphic) |
+| getCode | | <pre>**copies:** number of copies</pre> |```.getCode``` *see details below, [here](#functions-graphic) |
 
 ## Functions
 

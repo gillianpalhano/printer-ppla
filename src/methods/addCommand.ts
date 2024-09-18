@@ -13,7 +13,7 @@ function insertCR(input: string): string {
  * Enter commands at the beginning, can be used to change printer settings (system command, interactions or others)
  * * see addCommand
  * * see addPostCommand
- * @param command - A value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point. 
+ * @param command - A raw command. 
  * @example print.addPreCommand('<STX>O220<CR>')
  */
 export function addPreCommand(this: Printer, command: string): Printer {
@@ -28,7 +28,7 @@ export function addPreCommand(this: Printer, command: string): Printer {
  * Enter commands to edit the label
  * * see addPreCommand
  * * see addPostCommand
- * @param command - A value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point. 
+ * @param command - A raw command. 
  * @example print.addCommand('121100000500050Test<CR>')
  */
 export function addCommand(this: Printer, command: string): Printer {
@@ -43,7 +43,7 @@ export function addCommand(this: Printer, command: string): Printer {
  * Insert commands after label editing commands
  * * see addPreCommand
  * * see addCommand
- * @param command - A value for Y coordinate. The lower left corner is the origin point of the XY coordinate system. The Y value is the vertical offset from origin point. 
+ * @param command - A raw command. 
  * @example print.addPostCommand('<STX>xAGmyimage<CR>')
  */
 export function addPostCommand(this: Printer, command: string): Printer {
